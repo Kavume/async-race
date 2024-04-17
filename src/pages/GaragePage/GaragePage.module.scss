@@ -1,0 +1,14 @@
+.controlPanel, .buttonsWrapper, .createCarWrapper, .updateCarWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.buttonsWrapper {
+  gap: 1rem;
+}
+
+.createCarWrapper, .updateCarWrapper {
+  gap: 0.5rem;
+}

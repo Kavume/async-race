@@ -1,0 +1,14 @@
+.input {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+input[type='color'] {
+  padding: 2px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
