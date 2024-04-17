@@ -3,6 +3,7 @@
   cursor: pointer;
 }
 
+
 .large {
   display: flex;
   flex-wrap: nowrap;
@@ -34,4 +35,27 @@
   padding: 6px 10px;
   border: 1px solid black;
   border-radius: 3px;
+}
+
+
+.pink {
+  color: #e88fff;
+  box-shadow: 2px 2px 10px #e88fff;
+  border-color: #e88fff;
+}
+
+.blue {
+  color: #9bfdff;
+  box-shadow: 2px 2px 10px #9bfdff;
+  border-color: #9bfdff;
+}
+
+.green {
+  color: #bcff8c;
+  border-color: #bcff8c;
+}
+
+.yellow {
+  color: #fff28c;
+  border-color: #fff28c;
 }

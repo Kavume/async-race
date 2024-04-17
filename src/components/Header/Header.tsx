@@ -5,8 +5,8 @@ function Header() {
   return (
       <header className={styles.header}>
         <div className={styles.buttonsWrapper}>
-          <Button text={'GARAGE'} size={'large'} />
-          <Button text={'WINNERS'} size={'large'} />
+          <Button text={'GARAGE'} size={'large'} color={'pink'}/>
+          <Button text={'WINNERS'} size={'large'} color={'blue'} />
         </div>
       </header>
   );
