@@ -17,7 +17,7 @@ function GaragePage() {
   const [carColorValue, setCarColorValue] = useState('');
 
   const handleCreateNewCar = async () => {
-    await createNewCar(carNameValue, carColorValue, setCars, setCarNameValue, setCarColorValue);
+    await createNewCar(carNameValue, carColorValue, setCars);
   };
 
   useEffect(() => {
@@ -49,7 +49,7 @@ function GaragePage() {
             <Button text={'generate cars'} size={'medium'} color={'green'} />
         </div>
           {cars.map((car) => (
-              <CarItem key={car.id} carColor={car.color} carName={car.name} />
+              <CarItem key={car.id} carColor={car.color} carName={car.name} carId={car.id} setCars={setCars} />
           ))}
       </>
   );

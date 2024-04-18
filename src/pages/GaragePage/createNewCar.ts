@@ -1,6 +1,5 @@
-const createNewCar = async (carNameValue, carColorValue, setCars, setCarNameValue, setCarColorValue) => {
-  console.log(carNameValue);
-  console.log(carColorValue);
+const createNewCar = async (carNameValue, carColorValue, setCars) => {
+  if (!carColorValue.length) carColorValue = '#000';
 
   const res = await fetch('http://127.0.0.1:3000/garage', {
     method: 'POST',
@@ -12,8 +11,6 @@ const createNewCar = async (carNameValue, carColorValue, setCars, setCarNameValu
 
   const newCar = await res.json();
   setCars(prevCars => [...prevCars, newCar]);
-  setCarNameValue('');
-  setCarColorValue('#000');
 };
 
 export default createNewCar;
