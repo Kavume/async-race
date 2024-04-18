@@ -34,7 +34,7 @@
 .small {
   font-size: 0.6rem;
   padding: 6px 10px;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 3px;
 }
 
@@ -57,4 +57,10 @@
 .yellow {
   color: #fff28c;
   border-color: #fff28c;
+}
+
+.disable {
+  pointer-events: none;
+  color: #858eab;
+  border-color: #858eab;
 }

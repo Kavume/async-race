@@ -1,4 +1,6 @@
 .icon {
-  height: 16px;
-  width: fit-content;
+  & svg {
+    height: 16px;
+    width: fit-content;
+  }
 }

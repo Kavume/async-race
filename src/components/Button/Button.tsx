@@ -4,7 +4,7 @@ interface ButtonProps {
   text: string;
   size: 'large' | 'medium' | 'small';
   children: React.ReactNode;
-  color: 'pink' | 'blue' | 'green' | 'yellow';
+  color: 'pink' | 'blue' | 'green' | 'yellow' | 'disable';
   onClick?: () => void;
 }
 
