@@ -25,8 +25,8 @@ function GaragePage() {
       <>
         <div className={styles.controlPanel}>
           <div className={styles.buttonsWrapper}>
-            <IconButton text={'race'} icon={<RaceIcon color={'#bcff8c'} />} color={'green'} />
-            <IconButton text={'reset'} icon={<ResetIcon color={'#e88fff'} />} color={'pink'} />
+            <IconButton text={'race'} icon={<RaceIcon colorIcon={'var(--green)'} />} color={'green'} />
+            <IconButton text={'reset'} icon={<ResetIcon colorIcon={'var(--pink)'} />} color={'pink'} />
           </div>
           <div className={styles.createCarWrapper}>
             <Input placeholder={'Type car brand'} type={'text'} />

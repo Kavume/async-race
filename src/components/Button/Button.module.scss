@@ -40,27 +40,27 @@
 
 
 .pink {
-  color: #e88fff;
-  border-color: #e88fff;
+  color: var(--pink);
+  border-color: var(--pink);
 }
 
 .blue {
-  color: #9bfdff;
-  border-color: #9bfdff;
+  color: var(--blue);
+  border-color: var(--blue);
 }
 
 .green {
-  color: #bcff8c;
-  border-color: #bcff8c;
+  color: var(--green);
+  border-color: var(--green);
 }
 
 .yellow {
-  color: #fff28c;
-  border-color: #fff28c;
+  color: var(--yellow);
+  border-color: var(--yellow);
 }
 
 .disable {
   pointer-events: none;
-  color: #858eab;
-  border-color: #858eab;
+  color: var(--disable);
+  border-color: var(--disable);
 }
