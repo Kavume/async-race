@@ -4,9 +4,9 @@ import { Button } from '../../components/Button';
 import styles from './GaragePage.module.scss';
 import { useEffect, useState } from 'react';
 
-import { CarIcon } from '../../assets/icons';
 import { RaceIcon } from '../../assets/icons';
 import { ResetIcon } from '../../assets/icons';
+import { CarItem } from '../../components/CarItem';
 
 
 function GaragePage() {
@@ -41,20 +41,7 @@ function GaragePage() {
             <Button text={'generate cars'} size={'medium'} color={'green'} />
         </div>
           {cars.map((car) => (
-              <div key={car.id}>
-                  <div>
-                      <div>
-                        <Button text={'select'} size={'small'} color={'blue'} onClick={() => console.log('select button')}/>
-                        <Button text={'remove'} size={'small'} color={'pink'} onClick={() => console.log('remove button')}/>
-                      </div>
-                      <div>
-                          <Button text={'a'} size={'small'} color={'yellow'} onClick={() => console.log('start engine')}/>
-                          <Button text={'b'} size={'small'} color={'disable'} onClick={() => console.log('stop engine')}/>
-                      </div>
-                  </div>
-                  <div>{car.name}</div>
-                  <CarIcon color={car.color} />
-              </div>
+              <CarItem key={car.id} carColor={car.color} carName={car.name} />
           ))}
       </>
   );
