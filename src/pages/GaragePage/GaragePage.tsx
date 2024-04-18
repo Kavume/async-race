@@ -8,26 +8,26 @@ import { RaceIcon } from '../../assets/icons';
 import { ResetIcon } from '../../assets/icons';
 import { CarItem } from '../../components/CarItem';
 
-import createNewCar from './createNewCar';
+import { useDispatch } from 'react-redux';
+import { createNewCar, fetchCars } from '../../store/CarManageSlice';
+import { useAppSelector } from '../../store/hooks';
 
 
 function GaragePage() {
-  const [cars, setCars] = useState([]);
   const [carNameValue, setCarNameValue] = useState('');
   const [carColorValue, setCarColorValue] = useState('');
 
+  const dispatch = useDispatch();
+  const allCars = useAppSelector(state => state.allCars);
+
   const handleCreateNewCar = async () => {
-    await createNewCar(carNameValue, carColorValue, setCars);
+    dispatch(createNewCar({ carNameValue, carColorValue }));
+    dispatch(fetchCars());
   };
 
   useEffect(() => {
-    async function fetchData() {
-      const res = await fetch('http://127.0.0.1:3000/garage');
-      const carsAll = await res.json();
-      setCars(carsAll);
-    }
-    fetchData();
-  }, []);
+    dispatch(fetchCars());
+  }, [dispatch]);
 
   return (
       <>
@@ -39,7 +39,7 @@ function GaragePage() {
           <div className={styles.createCarWrapper}>
             <Input placeholder={'Type car brand'} type={'text'} onChange={(e) => setCarNameValue(e.target.value)} />
             <Input type={'color'} onChange={(e) => setCarColorValue(e.target.value)} />
-            <Button text={'create'} size={'medium'} color={'pink'} onClick={handleCreateNewCar} />
+            <Button text={'create'} size={'medium'} color={'pink'} onClick={ handleCreateNewCar } />
           </div>
             <div className={styles.updateCarWrapper}>
                 <Input placeholder={'Type car brand'} type={'text'} />
@@ -48,8 +48,8 @@ function GaragePage() {
             </div>
             <Button text={'generate cars'} size={'medium'} color={'green'} />
         </div>
-          {cars.map((car) => (
-              <CarItem key={car.id} carColor={car.color} carName={car.name} carId={car.id} setCars={setCars} />
+          {allCars.map((car) => (
+              <CarItem key={car.id} carColor={car.color} carName={car.name} carId={car.id} />
           ))}
       </>
   );
