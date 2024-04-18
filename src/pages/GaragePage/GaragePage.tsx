@@ -8,9 +8,17 @@ import { RaceIcon } from '../../assets/icons';
 import { ResetIcon } from '../../assets/icons';
 import { CarItem } from '../../components/CarItem';
 
+import createNewCar from './createNewCar';
+
 
 function GaragePage() {
   const [cars, setCars] = useState([]);
+  const [carNameValue, setCarNameValue] = useState('');
+  const [carColorValue, setCarColorValue] = useState('');
+
+  const handleCreateNewCar = async () => {
+    await createNewCar(carNameValue, carColorValue, setCars, setCarNameValue, setCarColorValue);
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -29,9 +37,9 @@ function GaragePage() {
             <IconButton text={'reset'} icon={<ResetIcon colorIcon={'var(--pink)'} />} color={'pink'} />
           </div>
           <div className={styles.createCarWrapper}>
-            <Input placeholder={'Type car brand'} type={'text'} />
-            <Input type={'color'} />
-            <Button text={'create'} size={'medium'} color={'pink'} />
+            <Input placeholder={'Type car brand'} type={'text'} onChange={(e) => setCarNameValue(e.target.value)} />
+            <Input type={'color'} onChange={(e) => setCarColorValue(e.target.value)} />
+            <Button text={'create'} size={'medium'} color={'pink'} onClick={handleCreateNewCar} />
           </div>
             <div className={styles.updateCarWrapper}>
                 <Input placeholder={'Type car brand'} type={'text'} />
