@@ -8,9 +8,10 @@ interface CarItemProps {
   carColor: string;
   carName: string;
   carId: number;
+  onSelectCar: (id: number, name: string, color: string) => void;
 }
 
-function CarItem({ carColor, carName, carId }: CarItemProps) {
+function CarItem({ carColor, carName, carId, onSelectCar }: CarItemProps) {
 
   const dispatch = useDispatch();
 
@@ -23,7 +24,7 @@ function CarItem({ carColor, carName, carId }: CarItemProps) {
         <div className={styles.itemWrapper}>
           <div className={styles.actionPanel}>
             <div className={styles.actionControlBtns}>
-              <Button text={'select'} size={'small'} color={'blue'} onClick={() => console.log('select button')} />
+              <Button text={'select'} size={'small'} color={'blue'} onClick={() => onSelectCar(carId, carName, carColor)} />
               <Button text={'remove'} size={'small'} color={'pink'} onClick={handleDeleteCar}/>
             </div>
             <div className={styles.engineControlBtns}>

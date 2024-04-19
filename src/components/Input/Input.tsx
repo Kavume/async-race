@@ -7,13 +7,14 @@ interface InputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function Input({ type, placeholder, onChange }: InputProps) {
+function Input({ type, placeholder, onChange, ...props }: InputProps) {
   return (
         <input
             className={styles.input}
             type={type}
             placeholder={placeholder}
             onChange={onChange}
+            {...props}
         />
   );
 }
