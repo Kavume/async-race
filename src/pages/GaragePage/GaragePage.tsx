@@ -9,7 +9,7 @@ import { ResetIcon } from '../../assets/icons';
 import { CarItem } from '../../components/CarItem';
 
 import { useDispatch } from 'react-redux';
-import { createNewCar, fetchCars, updateCar } from '../../store/CarManageSlice';
+import { createNewCar, fetchCars, updateCar } from '../../store/slices/CarManageSlice';
 import { useAppSelector } from '../../store/hooks';
 
 
