@@ -8,4 +8,16 @@
 .main {
   flex-grow: 1;
   padding: 72px 40px;
+
+  @media screen and (max-width: 1025px) {
+    padding: 48px 24px;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 36px 24px;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 24px 16px;
+  }
 }

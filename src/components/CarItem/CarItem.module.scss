@@ -23,11 +23,30 @@
   width: 100%;
   margin-left: 2rem;
   text-transform: uppercase;
+
+  @media screen and (max-width: 1025px) {
+    font-size: 1.5rem;
+    padding: 20px 0 20px 20px;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 18px 0 18px 12px;
+    font-size: 1.2rem;
+    margin-left: 1.2rem;
+  }
 }
 
 .icon {
   svg {
     height: 40px;
     width: fit-content;
+
+    @media screen and (max-width: 1025px) {
+      height: 30px;
+    }
+
+    @media screen and (max-width: 480px) {
+      height: 24px;
+    }
   }
 }

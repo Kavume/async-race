@@ -1,10 +1,95 @@
 .header {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: left;
+  gap: 120px;
+  padding: 32px 40px;
+  border-bottom: 1px dashed var(--footer);
+
+  @media screen and (max-width: 1025px) {
+    gap: 80px;
+    padding: 24px;
+  }
+
+  @media screen and (max-width: 768px) {
+    gap: 70px;
+    padding: 24px;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 0.7rem;
+    padding: 24px 16px;
+    gap: 40px;
+    justify-content: center;
+  }
 }
 
 .buttonsWrapper {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+
+  @media screen and (max-width: 1025px) {
+    gap: 1.1rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    gap: 1rem;
+  }
+
+  @media screen and (max-width: 480px) {
+    gap: 0.6rem;
+  }
 }
+
+.nameWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: logoAnimation 1s linear;
+
+  @media screen and (max-width: 700px) {
+    animation: none;
+  }
+}
+
+.nameUpPart, .nameDownPart {
+  text-transform: uppercase;
+  font-size: 3rem;
+
+  @media screen and (max-width: 1025px) {
+    font-size: 2.5rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 1.7rem;
+  }
+}
+
+.nameUpPart {
+  color: var(--pink);
+  text-shadow: 1px 2px 14px rgba(232, 143, 255, 0.6);
+}
+
+.nameDownPart {
+  color: var(--blue);
+  text-shadow: 1px 2px 14px rgba(155, 253, 255, 0.6);
+}
+
+@keyframes logoAnimation {
+  from {
+    opacity: 100%;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 10%;
+    transform: translateX(350px);
+  }
+}
+

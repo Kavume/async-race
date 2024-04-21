@@ -23,6 +23,10 @@ function Header() {
           <Button text={'GARAGE'} size={'large'} color={'pink'} onClick={goToGarage}/>
           <Button text={'WINNERS'} size={'large'} color={'blue'} onClick={goToWinners}/>
         </div>
+        <div className={styles.nameWrapper}>
+          <p className={styles.nameUpPart}>Async</p>
+          <p className={styles.nameDownPart}>race</p>
+        </div>
       </header>
   );
 }

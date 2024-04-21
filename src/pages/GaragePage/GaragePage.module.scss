@@ -1,12 +1,25 @@
-.controlPanel, .buttonsWrapper, .createCarWrapper, .updateCarWrapper {
+.controlPanel, .buttonsWrapper, .createCarWrapper, .updateCarWrapper, .inputsWrapper {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  gap: 22px;
   align-items: center;
   justify-content: space-between;
 }
 
+.inputsWrapper {
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
 .controlPanel {
   padding-bottom: 42px;
+
+  @media screen and (max-width: 950px) {
+    flex-direction: column;
+  }
 }
 
 .buttonsWrapper {

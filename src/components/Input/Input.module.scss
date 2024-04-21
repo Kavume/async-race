@@ -4,6 +4,16 @@
   padding: 8px;
   border-radius: 6px;
   text-align: center;
+
+  @media screen and (max-width: 1025px) {
+    font-size: 0.7rem;
+    padding: 6px;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 0.6rem;
+    padding: 4px;
+  }
 }
 
 input[type='color'] {
@@ -11,4 +21,14 @@ input[type='color'] {
   width: 30px;
   height: 30px;
   cursor: pointer;
+
+  @media screen and (max-width: 1025px) {
+    width: 28px;
+    height: 28px
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 26px;
+    height: 26px
+  }
 }

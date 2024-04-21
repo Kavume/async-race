@@ -57,6 +57,7 @@ function GaragePage() {
             <IconButton text={'race'} icon={<RaceIcon colorIcon={'var(--green)'} />} color={'green'} />
             <IconButton text={'reset'} icon={<ResetIcon colorIcon={'var(--pink)'} />} color={'pink'} />
           </div>
+          <div className={styles.inputsWrapper}>
           <div className={styles.createCarWrapper}>
             <Input placeholder={'Type car brand'} type={'text'} onChange={(e) => setCarNameValue(e.target.value)} value={carNameValue} />
             <Input type={'color'} onChange={(e) => setCarColorValue(e.target.value)} value={carColorValue} />
@@ -67,6 +68,7 @@ function GaragePage() {
                 <Input type={'color'} value={carUpdatedColorValue} onChange={(e) => setCarUpdatedColorValue(e.target.value)} />
                 <Button text={'update'} size={'medium'} color={'pink'} onClick={handleUpdateCar}/>
             </div>
+          </div>
             <Button text={'generate cars'} size={'medium'} color={'green'} />
         </div>
           {allCars.map((car) => (
