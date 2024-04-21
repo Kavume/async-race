@@ -9,7 +9,7 @@ import { ResetIcon } from '../../assets/icons';
 import { CarItem } from '../../components/CarItem';
 
 import { useDispatch } from 'react-redux';
-import { createNewCar, fetchCars, updateCar } from '../../store/slices/CarManageSlice';
+import { createNewCar, fetchCars, generateNewCars, updateCar } from '../../store/slices/CarManageSlice';
 import { useAppSelector } from '../../store/hooks';
 import { Pagination } from '../../components/Pagination';
 
@@ -20,7 +20,8 @@ function GaragePage() {
   const [carUpdatedColorValue, setCarUpdatedColorValue] = useState('');
   const [carUpdatedNameValue, setCarUpdatedNameValue] = useState('');
   const [selectedCarId, setSelectedCarId] = useState<number | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const startPage = 1;
+  const [currentPage, setCurrentPage] = useState(startPage);
   const limitOnPage = 7;
   const indexAdjustment = 1;
 
@@ -50,6 +51,10 @@ function GaragePage() {
     setCarUpdatedColorValue(color);
   };
 
+  const generateCars = () => {
+    dispatch(generateNewCars());
+  };
+
   useEffect(() => {
     dispatch(fetchCars());
   }, [dispatch]);
@@ -73,7 +78,7 @@ function GaragePage() {
                 <Button text={'update'} size={'medium'} color={'pink'} onClick={handleUpdateCar}/>
             </div>
           </div>
-            <Button text={'generate cars'} size={'medium'} color={'green'} />
+            <Button text={'generate cars'} size={'medium'} color={'green'} onClick={generateCars}/>
         </div>
         {
           allCars.slice((currentPage - indexAdjustment) * limitOnPage, currentPage * limitOnPage)

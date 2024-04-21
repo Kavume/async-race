@@ -1,4 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { carBrands } from '../../pages/GaragePage/data';
+import { generateName, generateColor } from './utils';
 
 export const fetchCars = createAsyncThunk(
   'cars/fetchCars',
@@ -56,6 +58,30 @@ export const createNewCar = createAsyncThunk(
   },
 );
 
+export const generateNewCars = createAsyncThunk(
+  'cars/generateNewCars',
+  async (_, { rejectWithValue }) => {
+    try {
+      for (let i = 0; i < 100; i++) {
+        const nameCar = generateName(carBrands);
+        const colorCar = generateColor();
+
+        const response = await fetch('http://127.0.0.1:3000/garage', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name: nameCar, color: colorCar }),
+        });
+
+        if (!response.ok) throw new Error('Server Error');
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const updateCar = createAsyncThunk(
   'cars/updateCar',
   async ({ carId, carName, carColor }: { carId: number; carName: string; carColor: string }, { rejectWithValue }) => {
@@ -91,15 +117,8 @@ const carManageSlice = createSlice({
   name: 'cars',
   initialState,
   reducers: {
-    createCar(state, action) {
-      state.cars.push({
-        name: action.payload.name,
-        color: action.payload.color,
-      });
-    },
-    deleteCar(state, action) {
-      state.cars = state.cars.filter(car => car.id !== action.payload.id);
-    },
+    createCar() {},
+    deleteCar() {},
   },
   extraReducers: builder => {
     builder
