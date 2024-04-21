@@ -11,6 +11,7 @@ import { CarItem } from '../../components/CarItem';
 import { useDispatch } from 'react-redux';
 import { createNewCar, fetchCars, updateCar } from '../../store/slices/CarManageSlice';
 import { useAppSelector } from '../../store/hooks';
+import { Pagination } from '../../components/Pagination';
 
 
 function GaragePage() {
@@ -19,6 +20,9 @@ function GaragePage() {
   const [carUpdatedColorValue, setCarUpdatedColorValue] = useState('');
   const [carUpdatedNameValue, setCarUpdatedNameValue] = useState('');
   const [selectedCarId, setSelectedCarId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const limitOnPage = 7;
+  const indexAdjustment = 1;
 
   const dispatch = useDispatch();
   const allCars = useAppSelector(state => state.allCars);
@@ -71,9 +75,18 @@ function GaragePage() {
           </div>
             <Button text={'generate cars'} size={'medium'} color={'green'} />
         </div>
-          {allCars.map((car) => (
-              <CarItem key={car.id} carColor={car.color} carName={car.name} carId={car.id} onSelectCar={handleSelectCar} />
-          ))}
+        {
+          allCars.slice((currentPage - indexAdjustment) * limitOnPage, currentPage * limitOnPage)
+            .map((car) => (
+                    <CarItem key={car.id} carColor={car.color} carName={car.name} carId={car.id} onSelectCar={handleSelectCar} />
+            ))
+        }
+        <Pagination
+            currentPage={currentPage}
+            total={allCars.length}
+            limit={limitOnPage}
+            onPageChange={(page: number) => setCurrentPage(page)}
+        />
       </>
   );
 }
