@@ -2,8 +2,9 @@ import { Button } from '../Button';
 import { CarIcon } from '../../assets/icons';
 import styles from './CarItem.module.scss';
 import { useDispatch } from 'react-redux';
-import { deleteCarItem, fetchCars } from '../../store/slices/CarManageSlice';
-import { useEffect, useState } from 'react';
+import { deleteCarItem } from '../../store/slices/CarManageSlice';
+import { startEngineFetch, stopEngineFetch } from '../../store/slices/CarEngineSlice';
+import { useAppSelector } from '../../store/hooks';
 
 interface CarItemProps {
   carColor: string;
@@ -14,68 +15,20 @@ interface CarItemProps {
 
 function CarItem({ carColor, carName, carId, onSelectCar }: CarItemProps) {
   const dispatch = useDispatch();
-  const [isEngineStarted, setIsEngineStarted] = useState(false);
-  const [velocity, setVelocity] = useState(0);
-  const [distance, setDistance] = useState(0);
-  const [isEngineBroken, setIsEngineBroken] = useState(false);
+  const currentCar = useAppSelector(state => state.carEngine[carId]) || {};
+  const { velocity, distance, isEngineStarted, isBroken } = currentCar;
 
-  const  handleDeleteCar = () => {
+  const handleStartEngine = async (id) => {
+    dispatch(startEngineFetch(id));
+  };
+
+  const handleStopEngine = async (id) => {
+    dispatch(stopEngineFetch(id));
+  };
+
+  const handleDeleteCar = () => {
     dispatch(deleteCarItem(carId));
   };
-
-  const handleStartEngine = async () => {
-    try {
-      setIsEngineStarted(true);
-
-      const res = await fetch(`http://127.0.0.1:3000/engine?status=started&id=${carId}`, {
-        method: 'PATCH',
-        headers: {},
-      });
-      const data = await res.json();
-      setVelocity(data.velocity);
-      setDistance(data.distance);
-
-      driveMode();
-
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
-  const driveMode = async () => {
-    try {
-      const res = await fetch(`http://127.0.0.1:3000/engine?status=drive&id=${carId}`, {
-        method: 'PATCH',
-        headers: {},
-      });
-
-      const codeOfError = 500;
-      if (res.status === codeOfError) {
-        setIsEngineBroken(true);
-      } else {
-        console.log('show winners');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
-  const handleStopEngine = async () => {
-    try {
-      setIsEngineStarted(false);
-
-      await fetch(`http://127.0.0.1:3000/engine?status=stopped&id=${carId}`, {
-        method: 'PATCH',
-        headers: {},
-      });
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
-  useEffect(() => {
-    dispatch(fetchCars());
-  }, [dispatch]);
 
   return (
         <div className={styles.itemWrapper}>
@@ -85,11 +38,11 @@ function CarItem({ carColor, carName, carId, onSelectCar }: CarItemProps) {
               <Button text={'remove'} size={'small'} color={'pink'} onClick={handleDeleteCar}/>
             </div>
             <div className={styles.engineControlBtns}>
-              <Button text={'a'} size={'small'} color={isEngineStarted ? 'disable' : 'yellow'} onClick={handleStartEngine}/>
-              <Button text={'b'} size={'small'} color={isEngineStarted ? 'yellow' : 'disable'} onClick={handleStopEngine}/>
+              <Button text={'a'} size={'small'} color={isEngineStarted ? 'disable' : 'yellow'} onClick={() => handleStartEngine(carId)}/>
+              <Button text={'b'} size={'small'} color={isEngineStarted ? 'yellow' : 'disable'} onClick={() => handleStopEngine(carId)}/>
             </div>
               <div
-                  className={`${styles.icon} ${isEngineStarted ? styles.startAnimation : ''} ${isEngineBroken ? styles.stopAnimation : ''}`}
+                  className={`${styles.icon} ${isEngineStarted ? styles.startAnimation : ''} ${isBroken ? styles.stopAnimation : ''}`}
                   style={{ animationDuration: `${distance / velocity}ms` }}
               >
                   <CarIcon colorIcon={carColor} />

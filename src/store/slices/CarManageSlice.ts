@@ -19,7 +19,7 @@ export const fetchCars = createAsyncThunk(
 
 export const deleteCarItem = createAsyncThunk(
   'cars/deleteCarItem',
-  async function (id, { rejectWithValue, dispatch }) {
+  async function (id: number, { rejectWithValue, dispatch }) {
     try {
       const response = await fetch(`http://127.0.0.1:3000/garage/${id}`, {
         method: 'DELETE',
@@ -38,7 +38,7 @@ export const deleteCarItem = createAsyncThunk(
 
 export const createNewCar = createAsyncThunk(
   'cars/createNewCar',
-  async ({ carNameValue, carColorValue }: { carNameValue: string; carColorValue: string }, {  rejectWithValue }) => {
+  async ({ carNameValue, carColorValue }: { carNameValue: string; carColorValue: string }, {  rejectWithValue, dispatch }) => {
     try {
       if (!carColorValue.length) carColorValue = '#000';
       if (!carNameValue.length) carNameValue = 'No name';
@@ -52,8 +52,9 @@ export const createNewCar = createAsyncThunk(
       });
 
       if (!response.ok) throw new Error('Server Error');
-
-      return await response.json();
+      const result = await response.json();
+      dispatch(fetchCars());
+      return result;
 
     } catch (error) {
       return rejectWithValue(error.message);

@@ -25,7 +25,7 @@ function GaragePage() {
     updatedColor: '',
   });
 
-  const [selectedCarId, setSelectedCarId] = useState<number | null>(null);
+  const [selectedCarId, setSelectedCarId] = useState(null);
   const [currentPage, setCurrentPage] = useState(startPage);
 
   const dispatch = useDispatch();
@@ -33,7 +33,6 @@ function GaragePage() {
 
   const handleCreateNewCar = useCallback(() => {
     dispatch(createNewCar({ carNameValue: carValues.newName, carColorValue: carValues.newColor }));
-    dispatch(fetchCars());
     setCarValues({ ...carValues, newName: '', newColor: '' });
   }, [dispatch, carValues]);
 
@@ -56,7 +55,8 @@ function GaragePage() {
 
   useEffect(() => {
     dispatch(fetchCars());
-  }, [dispatch]);
+    console.log('use');
+  }, []);
 
   const visibleCars = useMemo(() => {
     return allCars.slice((currentPage - indexAdjustment) * limitOnPage, currentPage * limitOnPage);
