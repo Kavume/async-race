@@ -19,24 +19,37 @@
   color: var(--light-blue);
   border-top: 1px dashed var(--disable);
   border-bottom: 1px dashed var(--disable);
-  padding: 20px 0 20px 24px;
+  padding: 20px 0 20px 10px;
   width: 100%;
-  margin-left: 2rem;
+  margin-left: 110px;
   text-transform: uppercase;
+  position: relative;
+  overflow-x: hidden;
 
   @media screen and (max-width: 1025px) {
     font-size: 1.5rem;
-    padding: 20px 0 20px 20px;
+    margin-left: 90px;
   }
 
   @media screen and (max-width: 480px) {
     padding: 18px 0 18px 12px;
     font-size: 1.2rem;
-    margin-left: 1.2rem;
+    margin-left: 76px
   }
 }
 
 .icon {
+  position: absolute;
+  right: calc(100% - 240px);
+
+  @media screen and (max-width: 1025px) {
+    right: calc(100% - 200px);
+  }
+
+  @media screen and (max-width: 480px) {
+    right: calc(100% - 170px);
+  }
+
   svg {
     height: 40px;
     width: fit-content;
@@ -48,5 +61,18 @@
     @media screen and (max-width: 480px) {
       height: 24px;
     }
+  }
+}
+
+.startAnimation {
+  animation: carAnimation linear forwards;
+}
+
+@keyframes carAnimation {
+  from {
+    right: calc(100% - 260px);
+  }
+  to {
+    right: calc(0px + 40px);
   }
 }

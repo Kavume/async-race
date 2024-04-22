@@ -2,7 +2,6 @@ import styles from './Footer.module.scss';
 import { Link } from 'react-router-dom';
 
 function Footer() {
-
   return (
         <footer className={styles.footer}>
             <Link className={styles.link} to={'https://github.com/Kavume'} target='_blank'>
