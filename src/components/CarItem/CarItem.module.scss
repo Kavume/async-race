@@ -68,6 +68,10 @@
   animation: carAnimation linear forwards;
 }
 
+.stopAnimation {
+  animation-play-state: paused;
+}
+
 @keyframes carAnimation {
   from {
     right: calc(100% - 260px);

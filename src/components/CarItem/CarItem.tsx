@@ -17,6 +17,7 @@ function CarItem({ carColor, carName, carId, onSelectCar }: CarItemProps) {
   const [isEngineStarted, setIsEngineStarted] = useState(false);
   const [velocity, setVelocity] = useState(0);
   const [distance, setDistance] = useState(0);
+  const [isEngineBroken, setIsEngineBroken] = useState(false);
 
   const  handleDeleteCar = () => {
     dispatch(deleteCarItem(carId));
@@ -31,10 +32,29 @@ function CarItem({ carColor, carName, carId, onSelectCar }: CarItemProps) {
         headers: {},
       });
       const data = await res.json();
-
       setVelocity(data.velocity);
       setDistance(data.distance);
 
+      driveMode();
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const driveMode = async () => {
+    try {
+      const res = await fetch(`http://127.0.0.1:3000/engine?status=drive&id=${carId}`, {
+        method: 'PATCH',
+        headers: {},
+      });
+
+      const codeOfError = 500;
+      if (res.status === codeOfError) {
+        setIsEngineBroken(true);
+      } else {
+        console.log('show winners');
+      }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -69,7 +89,7 @@ function CarItem({ carColor, carName, carId, onSelectCar }: CarItemProps) {
               <Button text={'b'} size={'small'} color={isEngineStarted ? 'yellow' : 'disable'} onClick={handleStopEngine}/>
             </div>
               <div
-                  className={`${styles.icon} ${isEngineStarted ? styles.startAnimation : ''}`}
+                  className={`${styles.icon} ${isEngineStarted ? styles.startAnimation : ''} ${isEngineBroken ? styles.stopAnimation : ''}`}
                   style={{ animationDuration: `${distance / velocity}ms` }}
               >
                   <CarIcon colorIcon={carColor} />
