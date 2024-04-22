@@ -2,7 +2,7 @@ import { IconButton } from '../../components/IconButton';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import styles from './GaragePage.module.scss';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { RaceIcon } from '../../assets/icons';
 import { ResetIcon } from '../../assets/icons';
@@ -13,51 +13,54 @@ import { createNewCar, fetchCars, generateNewCars, updateCar } from '../../store
 import { useAppSelector } from '../../store/hooks';
 import { Pagination } from '../../components/Pagination';
 
+const startPage = 1;
+const limitOnPage = 7;
+const indexAdjustment = 1;
 
 function GaragePage() {
-  const [carNameValue, setCarNameValue] = useState('');
-  const [carColorValue, setCarColorValue] = useState('');
-  const [carUpdatedColorValue, setCarUpdatedColorValue] = useState('');
-  const [carUpdatedNameValue, setCarUpdatedNameValue] = useState('');
+  const [carValues, setCarValues] = useState({
+    newName: '',
+    newColor: '',
+    updatedName: '',
+    updatedColor: '',
+  });
+
   const [selectedCarId, setSelectedCarId] = useState<number | null>(null);
-  const startPage = 1;
   const [currentPage, setCurrentPage] = useState(startPage);
-  const limitOnPage = 7;
-  const indexAdjustment = 1;
 
   const dispatch = useDispatch();
   const allCars = useAppSelector(state => state.allCars);
 
-  const handleCreateNewCar = async () => {
-    dispatch(createNewCar({ carNameValue, carColorValue }));
+  const handleCreateNewCar = useCallback(() => {
+    dispatch(createNewCar({ carNameValue: carValues.newName, carColorValue: carValues.newColor }));
     dispatch(fetchCars());
+    setCarValues({ ...carValues, newName: '', newColor: '' });
+  }, [dispatch, carValues]);
 
-    setCarNameValue('');
-    setCarColorValue('');
-  };
-
-  const handleUpdateCar = async () => {
+  const handleUpdateCar = useCallback(() => {
     if (selectedCarId) {
-      dispatch(updateCar({ carId: selectedCarId, carName: carUpdatedNameValue, carColor: carUpdatedColorValue }));
+      dispatch(updateCar({ carId: selectedCarId, carName: carValues.updatedName, carColor: carValues.updatedColor }));
     }
     setSelectedCarId(null);
-    setCarUpdatedNameValue('');
-    setCarUpdatedColorValue('');
-  };
+    setCarValues({ ...carValues, updatedName: '', updatedColor: '' });
+  }, [dispatch, selectedCarId, carValues]);
 
-  const handleSelectCar = (id: number, name: string, color: string) => {
+  const handleSelectCar = useCallback((id: number, name: string, color: string) => {
     setSelectedCarId(id);
-    setCarUpdatedNameValue(name);
-    setCarUpdatedColorValue(color);
-  };
+    setCarValues({ ...carValues, updatedName: name, updatedColor: color });
+  }, [setSelectedCarId, setCarValues, carValues]);
 
-  const generateCars = () => {
+  const generateCars = useCallback(() => {
     dispatch(generateNewCars());
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchCars());
   }, [dispatch]);
+
+  const visibleCars = useMemo(() => {
+    return allCars.slice((currentPage - indexAdjustment) * limitOnPage, currentPage * limitOnPage);
+  }, [allCars, currentPage]);
 
   return (
       <>
@@ -67,26 +70,22 @@ function GaragePage() {
             <IconButton text={'reset'} icon={<ResetIcon colorIcon={'var(--pink)'} />} color={'pink'} />
           </div>
           <div className={styles.inputsWrapper}>
-          <div className={styles.createCarWrapper}>
-            <Input placeholder={'Type car brand'} type={'text'} onChange={(e) => setCarNameValue(e.target.value)} value={carNameValue} />
-            <Input type={'color'} onChange={(e) => setCarColorValue(e.target.value)} value={carColorValue} />
-            <Button text={'create'} size={'medium'} color={'pink'} onClick={ handleCreateNewCar } />
-          </div>
+            <div className={styles.createCarWrapper}>
+              <Input placeholder={'Type car brand'} type={'text'} onChange={(e) => setCarValues({ ...carValues, newName: e.target.value })} value={carValues.newName} />
+              <Input type={'color'} onChange={(e) => setCarValues({ ...carValues, newColor: e.target.value })} value={carValues.newColor} />
+              <Button text={'create'} size={'medium'} color={'pink'} onClick={ handleCreateNewCar } />
+            </div>
             <div className={styles.updateCarWrapper}>
-                <Input placeholder={'Type car brand'} type={'text'} value={carUpdatedNameValue} onChange={(e) => setCarUpdatedNameValue(e.target.value)} />
-                <Input type={'color'} value={carUpdatedColorValue} onChange={(e) => setCarUpdatedColorValue(e.target.value)} />
+                <Input placeholder={'Type car brand'} type={'text'} value={carValues.updatedName} onChange={(e) => setCarValues({ ...carValues, updatedName: e.target.value })} />
+                <Input type={'color'} value={carValues.updatedColor} onChange={(e) => setCarValues({ ...carValues, updatedColor: e.target.value })} />
                 <Button text={'update'} size={'medium'} color={'pink'} onClick={handleUpdateCar}/>
             </div>
           </div>
-            <Button text={'generate cars'} size={'medium'} color={'green'} onClick={generateCars}/>
+          <Button text={'generate cars'} size={'medium'} color={'green'} onClick={generateCars}/>
         </div>
-        {
-          allCars
-            .slice((currentPage - indexAdjustment) * limitOnPage, currentPage * limitOnPage)
-            .map((car) => (
-                    <CarItem key={car.id} carColor={car.color} carName={car.name} carId={car.id} onSelectCar={handleSelectCar} />
-            ))
-        }
+        {visibleCars.map((car) => (
+            <CarItem key={car.id} carColor={car.color} carName={car.name} carId={car.id} onSelectCar={handleSelectCar} />
+        ))}
         <Pagination
             currentPage={currentPage}
             total={allCars.length}
