@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { createNewCar, fetchCars, generateNewCars, updateCar } from '../../store/slices/CarManageSlice';
 import { useAppSelector } from '../../store/hooks';
 import { Pagination } from '../../components/Pagination';
+import { startEngineFetch, stopEngineFetch } from '../../store/slices/CarEngineSlice';
 
 const startPage = 1;
 const limitOnPage = 7;
@@ -53,6 +54,18 @@ function GaragePage() {
     dispatch(generateNewCars());
   }, [dispatch]);
 
+  const handleRace = async () => {
+    allCars.forEach((car) => {
+      dispatch(startEngineFetch(car.id));
+    });
+  };
+
+  const handleReset = async () => {
+    allCars.forEach((car) => {
+      dispatch(stopEngineFetch(car.id));
+    });
+  };
+
   useEffect(() => {
     dispatch(fetchCars());
     console.log('use');
@@ -66,8 +79,8 @@ function GaragePage() {
       <>
         <div className={styles.controlPanel}>
           <div className={styles.buttonsWrapper}>
-            <IconButton text={'race'} icon={<RaceIcon colorIcon={'var(--green)'} />} color={'green'} />
-            <IconButton text={'reset'} icon={<ResetIcon colorIcon={'var(--pink)'} />} color={'pink'} />
+            <IconButton text={'race'} icon={<RaceIcon colorIcon={'var(--green)'} />} color={'green'} onClick={handleRace} />
+            <IconButton text={'reset'} icon={<ResetIcon colorIcon={'var(--pink)'} />} color={'pink'} onClick={handleReset} />
           </div>
           <div className={styles.inputsWrapper}>
             <div className={styles.createCarWrapper}>

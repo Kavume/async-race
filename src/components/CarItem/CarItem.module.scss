@@ -41,6 +41,7 @@
 .icon {
   position: absolute;
   right: calc(100% - 240px);
+  z-index: 1;
 
   @media screen and (max-width: 1025px) {
     right: calc(100% - 200px);

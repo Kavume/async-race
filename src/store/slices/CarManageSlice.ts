@@ -140,7 +140,8 @@ const carManageSlice = createSlice({
       })
       .addCase(updateCar.fulfilled, (state, action) => {
         const existingCarIndex = state.findIndex(car => car.id === action.payload.id);
-        if (existingCarIndex !== -1) {
+        const notFound = -1;
+        if (existingCarIndex !== notFound) {
           state[existingCarIndex] = action.payload;
         }
       })
