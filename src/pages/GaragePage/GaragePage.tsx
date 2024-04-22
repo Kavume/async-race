@@ -81,7 +81,8 @@ function GaragePage() {
             <Button text={'generate cars'} size={'medium'} color={'green'} onClick={generateCars}/>
         </div>
         {
-          allCars.slice((currentPage - indexAdjustment) * limitOnPage, currentPage * limitOnPage)
+          allCars
+            .slice((currentPage - indexAdjustment) * limitOnPage, currentPage * limitOnPage)
             .map((car) => (
                     <CarItem key={car.id} carColor={car.color} carName={car.name} carId={car.id} onSelectCar={handleSelectCar} />
             ))

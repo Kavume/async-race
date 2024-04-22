@@ -19,14 +19,16 @@ export const fetchCars = createAsyncThunk(
 
 export const deleteCarItem = createAsyncThunk(
   'cars/deleteCarItem',
-  async function (id, { rejectWithValue }) {
+  async function (id, { rejectWithValue, dispatch }) {
     try {
       const response = await fetch(`http://127.0.0.1:3000/garage/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) throw new Error('Server Error');
 
-      return await response.json();
+      const result = await response.json();
+      dispatch(fetchCars());
+      return result;
 
     } catch (error) {
       return rejectWithValue(error.message);
@@ -39,6 +41,7 @@ export const createNewCar = createAsyncThunk(
   async ({ carNameValue, carColorValue }: { carNameValue: string; carColorValue: string }, {  rejectWithValue }) => {
     try {
       if (!carColorValue.length) carColorValue = '#000';
+      if (!carNameValue.length) carNameValue = 'No name';
 
       const response = await fetch('http://127.0.0.1:3000/garage', {
         method: 'POST',
@@ -60,9 +63,12 @@ export const createNewCar = createAsyncThunk(
 
 export const generateNewCars = createAsyncThunk(
   'cars/generateNewCars',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, dispatch }) => {
     try {
-      for (let i = 0; i < 100; i++) {
+      const start = 0;
+      const end = 100;
+
+      for (let i = start; i < end; i++) {
         const nameCar = generateName(carBrands);
         const colorCar = generateColor();
 
@@ -76,6 +82,9 @@ export const generateNewCars = createAsyncThunk(
 
         if (!response.ok) throw new Error('Server Error');
       }
+      const cars = dispatch(fetchCars());
+      return await cars;
+
     } catch (error) {
       return rejectWithValue(error.message);
     }
