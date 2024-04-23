@@ -27,7 +27,7 @@ function CarItem({ carColor, carName, carId, onSelectCar }: CarItemProps) {
   };
 
   const handleDeleteCar = () => {
-    dispatch(deleteCarItem(carId));
+    dispatch(deleteCarItem({ id: carId }));
   };
 
   return (

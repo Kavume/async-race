@@ -1,34 +1,21 @@
-import { PaginationItem } from './PaginationItem';
+import { nextButtonPagination, prevButtonPagination } from '../../store/slices/CarManageSlice';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../store/hooks';
+import { Button } from '../Button';
 import styles from './Pagination.module.scss';
 
-interface PaginationProps {
-  currentPage: number;
-  total: number;
-  limit: number;
-  onPageChange: (page: number) => void;
-}
-
-const range = (start: number, end: number) => {
-  return [...Array(end).keys()].map((el) => el + start);
-};
-
-function Pagination({ currentPage, onPageChange, total, limit }: PaginationProps) {
-  const pagesCount = Math.ceil(total / limit);
-  const startValue = 1;
-  const pages = range(startValue, pagesCount);
+function Pagination() {
+  const dispatch = useDispatch();
+  const totalPage = useAppSelector(state => state.allCars.totalPage);
+  const curPage = useAppSelector(state => state.allCars.currentPage);
+  const startPage = 1;
 
   return (
-      <ul className={styles.pagination}>
-        {pages.map((page) => (
-            <PaginationItem
-                page={page}
-                key={page}
-                currentPage={currentPage}
-                onPageChange={onPageChange}
-            />
-        ))
-        }
-      </ul>
+      <div className={styles.paginationWrap}>
+        <Button text={'<'} size={'medium'} color={curPage === startPage ? 'disable' : 'blue'} onClick={() => dispatch(prevButtonPagination())} />
+          <p className={styles.text}>Page {curPage} / <span className={styles.totalPage}>{totalPage}</span></p>
+        <Button text={'>'} size={'medium'} color={curPage === totalPage ? 'disable' : 'blue'} onClick={() => dispatch(nextButtonPagination())} />
+      </div>
   );
 }
 
