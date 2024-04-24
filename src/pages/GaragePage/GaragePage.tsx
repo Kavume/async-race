@@ -12,9 +12,9 @@ import { useDispatch } from 'react-redux';
 import { fetchCars, generateNewCars, updateCar } from '../../store/slices/CarManageSlice';
 import { useAppSelector } from '../../store/hooks';
 import { startEngineFetch, stopEngineFetch } from '../../store/slices/CarEngineSlice';
-import { Pagination } from '../../components/Pagination';
 import { CreateCar } from './components/CreateCar';
 import { UpdateCar } from './components/UpdateCar';
+import { GaragePagination } from './components/GaragePagination';
 
 function GaragePage() {
   const [carValues, setCarValues] = useState({
@@ -81,7 +81,7 @@ function GaragePage() {
         {allCars.map((car) => (
             <CarItem key={car.id} carColor={car.color} carName={car.name} carId={car.id} onSelectCar={handleSelectCar} />
         ))}
-        <Pagination />
+        <GaragePagination />
       </>
   );
 }

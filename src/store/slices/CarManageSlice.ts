@@ -2,19 +2,19 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { carBrands } from '../../pages/GaragePage/data';
 import { generateName, generateColor } from './utils';
 
-const limit = 7;
-const stepPagination = 1;
+const LIMIT = 7;
+const STEP_OF_PAGINATION = 1;
 
 export const fetchCars = createAsyncThunk(
   'cars/fetchCars',
   async function (page: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`http://127.0.0.1:3000/garage?_limit=7&_page=${page}`);
+      const response = await fetch(`http://127.0.0.1:3000/garage?_limit=${LIMIT}&_page=${page}`);
       if (!response.ok) throw new Error('Server Error');
 
       const data: CarItem[] = await response.json();
       const totalCars = Number(response.headers.get('X-Total-Count'));
-      const totalPage = Math.ceil(totalCars / limit);
+      const totalPage = Math.ceil(totalCars / LIMIT);
 
       return { data, totalPage };
 
@@ -151,15 +151,15 @@ const carManageSlice = createSlice({
   name: 'cars',
   initialState,
   reducers: {
-    nextButtonPagination(state) {
+    nextButtonPaginationGarage(state) {
       return { ...state,
-        currentPage: state.currentPage + stepPagination,
+        currentPage: state.currentPage + STEP_OF_PAGINATION,
 
       };
     },
-    prevButtonPagination(state) {
+    prevButtonPaginationGarage(state) {
       return { ...state,
-        currentPage: state.currentPage - stepPagination,
+        currentPage: state.currentPage - STEP_OF_PAGINATION,
 
       };
     },
@@ -186,5 +186,5 @@ const carManageSlice = createSlice({
 
 });
 
-export const { nextButtonPagination, prevButtonPagination } = carManageSlice.actions;
+export const { nextButtonPaginationGarage, prevButtonPaginationGarage } = carManageSlice.actions;
 export default carManageSlice.reducer;

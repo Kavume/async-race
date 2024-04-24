@@ -1,0 +1,52 @@
+.table {
+  width: 100%;
+  color: var(--yellow);
+
+  & th {
+    border-bottom: 3px solid var(--light-blue);
+    padding-bottom: 10px;
+  }
+}
+
+.headerCell, .dataCell {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 1.1rem;
+
+
+  @media screen and (max-width: 1025px) {
+    font-size: 0.9rem;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 0.8rem;
+  }
+}
+
+.dataCell {
+  padding: 20px;
+}
+
+
+.icon {
+  svg {
+    height: 40px;
+    width: fit-content;
+
+    @media screen and (max-width: 1025px) {
+      height: 30px;
+    }
+
+    @media screen and (max-width: 480px) {
+      height: 24px;
+    }
+  }
+}
+
+.name {
+  width: 40%
+}
+
+.time {
+  width: 10%;
+}

@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+const CODE_OF_ERROR = 500;
+
 export const startEngineFetch = createAsyncThunk(
   'carEngine/startEngineFetch',
   async function (carId: number, { rejectWithValue, dispatch }) {
-    console.log(carId);
     try {
       const response = await fetch(`http://127.0.0.1:3000/engine?status=started&id=${carId}`, {
         method: 'PATCH',
@@ -22,7 +23,6 @@ export const startEngineFetch = createAsyncThunk(
   },
 );
 
-
 export const driveModeFetch = createAsyncThunk(
   'carEngine/driveModeFetch',
   async function (carId, { rejectWithValue, dispatch }) {
@@ -31,9 +31,7 @@ export const driveModeFetch = createAsyncThunk(
         method: 'PATCH',
         headers: {},
       });
-      const codeOfError = 500;
-      console.log(response.status);
-      if (response.status === codeOfError) {
+      if (response.status === CODE_OF_ERROR) {
         dispatch(toggleIsBroken(carId));
       }
 
