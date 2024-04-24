@@ -9,15 +9,15 @@ import { ResetIcon } from '../../assets/icons';
 import { CarItem } from '../../components/CarItem';
 
 import { useDispatch } from 'react-redux';
-import { createNewCar, fetchCars, generateNewCars, updateCar } from '../../store/slices/CarManageSlice';
+import { fetchCars, generateNewCars, updateCar } from '../../store/slices/CarManageSlice';
 import { useAppSelector } from '../../store/hooks';
 import { startEngineFetch, stopEngineFetch } from '../../store/slices/CarEngineSlice';
 import { Pagination } from '../../components/Pagination';
+import { CreateCar } from './components/CreateCar';
+import { UpdateCar } from './components/UpdateCar';
 
 function GaragePage() {
   const [carValues, setCarValues] = useState({
-    newName: '',
-    newColor: '',
     updatedName: '',
     updatedColor: '',
   });
@@ -27,11 +27,6 @@ function GaragePage() {
   const dispatch = useDispatch();
   const allCars = useAppSelector(state => state.allCars.carItems);
   const curPage = useAppSelector(state => state.allCars.currentPage);
-
-  const handleCreateNewCar = useCallback(() => {
-    dispatch(createNewCar({ carNameValue: carValues.newName, carColorValue: carValues.newColor }));
-    setCarValues({ ...carValues, newName: '', newColor: '' });
-  }, [dispatch, carValues]);
 
   const handleUpdateCar = useCallback(() => {
     if (selectedCarId) {
@@ -75,16 +70,11 @@ function GaragePage() {
             <IconButton text={'reset'} icon={<ResetIcon colorIcon={'var(--pink)'} />} color={'pink'} onClick={handleReset} />
           </div>
           <div className={styles.inputsWrapper}>
-            <div className={styles.createCarWrapper}>
-              <Input placeholder={'Type car brand'} type={'text'} onChange={(e) => setCarValues({ ...carValues, newName: e.target.value })} value={carValues.newName} />
-              <Input type={'color'} onChange={(e) => setCarValues({ ...carValues, newColor: e.target.value })} value={carValues.newColor} />
-              <Button text={'create'} size={'medium'} color={'pink'} onClick={ handleCreateNewCar } />
-            </div>
-            <div className={styles.updateCarWrapper}>
+            <CreateCar />
                 <Input placeholder={'Type car brand'} type={'text'} value={carValues.updatedName} onChange={(e) => setCarValues({ ...carValues, updatedName: e.target.value })} />
                 <Input type={'color'} value={carValues.updatedColor} onChange={(e) => setCarValues({ ...carValues, updatedColor: e.target.value })} />
                 <Button text={'update'} size={'medium'} color={'pink'} onClick={handleUpdateCar}/>
-            </div>
+            {/*<UpdateCar carId={selectedCarId} />*/}
           </div>
           <Button text={'generate cars'} size={'medium'} color={'green'} onClick={generateCars}/>
         </div>

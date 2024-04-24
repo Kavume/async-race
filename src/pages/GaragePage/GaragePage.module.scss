@@ -1,4 +1,4 @@
-.controlPanel, .buttonsWrapper, .createCarWrapper, .updateCarWrapper, .inputsWrapper {
+.controlPanel, .buttonsWrapper, .inputsWrapper {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -24,8 +24,4 @@
 
 .buttonsWrapper {
   gap: 1rem;
-}
-
-.createCarWrapper, .updateCarWrapper {
-  gap: 0.5rem;
 }
