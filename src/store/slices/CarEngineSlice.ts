@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createWinnerRelevant } from './WinnerSlice';
 
 const CODE_OF_ERROR = 500;
+const STATUS_200 = 200;
+const CONVERT_TO_MS = 1000;
+const FIX_NUMBER_INDEX = 2;
 
 export const startEngineFetch = createAsyncThunk(
   'carEngine/startEngineFetch',
@@ -14,7 +18,8 @@ export const startEngineFetch = createAsyncThunk(
 
       const data = await response.json();
       dispatch(createCarEngineValues({ id: carId, velocity: data.velocity, distance: data.distance }));
-      dispatch(driveModeFetch(carId));
+      const time = Number((data.distance / data.velocity / CONVERT_TO_MS).toFixed(FIX_NUMBER_INDEX));
+      dispatch(driveModeFetch({ carId, time }));
       return data;
 
     } catch (error) {
@@ -25,7 +30,7 @@ export const startEngineFetch = createAsyncThunk(
 
 export const driveModeFetch = createAsyncThunk(
   'carEngine/driveModeFetch',
-  async function (carId, { rejectWithValue, dispatch }) {
+  async function ({ carId, time }: { carId: number, time: number }, { rejectWithValue, dispatch }) {
     try {
       const response = await fetch(`http://127.0.0.1:3000/engine?status=drive&id=${carId}`, {
         method: 'PATCH',
@@ -33,6 +38,8 @@ export const driveModeFetch = createAsyncThunk(
       });
       if (response.status === CODE_OF_ERROR) {
         dispatch(toggleIsBroken(carId));
+      } else if (response.status === STATUS_200) {
+        dispatch(createWinnerRelevant({ id: carId, time: time }));
       }
 
       if (!response.ok) throw new Error('Server Error');

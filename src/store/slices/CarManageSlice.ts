@@ -154,20 +154,17 @@ const carManageSlice = createSlice({
     nextButtonPaginationGarage(state) {
       return { ...state,
         currentPage: state.currentPage + STEP_OF_PAGINATION,
-
       };
     },
     prevButtonPaginationGarage(state) {
       return { ...state,
         currentPage: state.currentPage - STEP_OF_PAGINATION,
-
       };
     },
   },
   extraReducers: builder => {
     builder
       .addCase(fetchCars.fulfilled, (state, action) => {
-        console.log(action);
         return { ...state,
           carItems: action.payload.data,
           totalPage: action.payload.totalPage,

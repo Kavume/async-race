@@ -1,5 +1,6 @@
 .table {
   width: 100%;
+  overflow-x: scroll;
   color: var(--yellow);
 
   & th {
@@ -8,11 +9,11 @@
   }
 }
 
-.headerCell, .dataCell {
+.headerCell {
   text-transform: uppercase;
   text-align: center;
   font-size: 1.1rem;
-
+  padding: 12px 0;
 
   @media screen and (max-width: 1025px) {
     font-size: 0.9rem;
@@ -23,30 +24,12 @@
   }
 }
 
-.dataCell {
-  padding: 20px;
-}
+.toggle {
+  cursor: pointer;
+  width: 20%;
 
-
-.icon {
-  svg {
-    height: 40px;
-    width: fit-content;
-
-    @media screen and (max-width: 1025px) {
-      height: 30px;
-    }
-
-    @media screen and (max-width: 480px) {
-      height: 24px;
-    }
+  &:hover {
+    color: var(--pink);
+    background-color: var(--light-blue);
   }
-}
-
-.name {
-  width: 40%
-}
-
-.time {
-  width: 10%;
 }

@@ -1,0 +1,38 @@
+.dataCell {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--light-blue);
+
+  @media screen and (max-width: 1025px) {
+    font-size: 0.9rem;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 0.8rem;
+  }
+}
+
+.icon {
+  svg {
+    height: 32px;
+    width: fit-content;
+
+    @media screen and (max-width: 1025px) {
+      height: 24px;
+    }
+
+    @media screen and (max-width: 480px) {
+      height: 18px;
+    }
+  }
+}
+
+.name {
+  width: 40%
+}
+
+.time {
+  width: 10%;
+}

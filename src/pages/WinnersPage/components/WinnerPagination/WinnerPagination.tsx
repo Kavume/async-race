@@ -8,8 +8,6 @@ function WinnerPagination() {
   const totalPage = useAppSelector(state => state.winners.totalPage);
   const curPage = useAppSelector(state => state.winners.currentPage);
 
-  console.log(totalPage + 'win' + curPage);
-  
   return (
         <Pagination
             prevAction={() => dispatch(prevButtonPaginationWinner())}
