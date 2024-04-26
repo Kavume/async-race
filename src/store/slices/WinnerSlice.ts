@@ -15,7 +15,7 @@ export const getWinners = createAsyncThunk(
       const data: WinnerItem[] = await response.json();
       const totalCars = Number(response.headers.get('X-Total-Count'));
       const totalPage = Math.ceil(totalCars / LIMIT);
-      return { data, totalPage };
+      return { data, totalPage, totalCars };
 
     } catch (error) {
       return rejectWithValue(error.message);
@@ -153,12 +153,14 @@ interface InitialWinnerType  {
   winnerItems: WinnerItem[],
   currentPage: number,
   totalPage: number,
+  totalCars: number
 }
 
 const initialState: InitialWinnerType = {
   winnerItems: [],
   currentPage: 1,
   totalPage: 1,
+  totalCars: 0,
 };
 
 const WinnersSlice = createSlice({
@@ -195,6 +197,7 @@ const WinnersSlice = createSlice({
           ...state,
           winnerItems: action.payload.data,
           totalPage: action.payload.totalPage,
+          totalCars: action.payload.totalCars,
         };
       })
       .addCase(getWinners.rejected, (state, action) => {

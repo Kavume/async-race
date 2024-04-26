@@ -16,7 +16,7 @@ export const fetchCars = createAsyncThunk(
       const totalCars = Number(response.headers.get('X-Total-Count'));
       const totalPage = Math.ceil(totalCars / LIMIT);
 
-      return { data, totalPage };
+      return { data, totalPage, totalCars };
 
     } catch (error) {
       return rejectWithValue(error.message);
@@ -139,12 +139,14 @@ interface InitialStoreType {
   carItems: CarItem[],
   currentPage: number,
   totalPage: number,
+  totalCars: number
 }
 
 const initialState: InitialStoreType = {
   carItems: [],
   currentPage: 1,
   totalPage: 1,
+  totalCars: 0,
 };
 
 const carManageSlice = createSlice({
@@ -168,6 +170,7 @@ const carManageSlice = createSlice({
         return { ...state,
           carItems: action.payload.data,
           totalPage: action.payload.totalPage,
+          totalCars: action.payload.totalCars,
         };
       })
       .addCase(fetchCars.rejected, (state, action) => {

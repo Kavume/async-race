@@ -1,9 +1,16 @@
- .paginationWrap {
-   display: flex;
-   flex-direction: row;
-   flex-wrap: wrap;
-   align-items: center;
-   justify-content: right;
+.paginationWrap, .buttonsWrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.paginationWrap {
+  width: 100%;
+}
+
+.buttonsWrap {
    gap: 16px;
    padding: 32px 0 0;
 

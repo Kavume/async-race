@@ -7,6 +7,7 @@ function WinnerPagination() {
   const dispatch = useDispatch();
   const totalPage = useAppSelector(state => state.winners.totalPage);
   const curPage = useAppSelector(state => state.winners.currentPage);
+  const totalCars = useAppSelector(state => state.winners.totalCars);
 
   return (
         <Pagination
@@ -14,6 +15,7 @@ function WinnerPagination() {
             nextAction={() => dispatch(nextButtonPaginationWinner())}
             totalPage={totalPage}
             curPage={curPage}
+            totalCars={totalCars}
         />
   );
 }
