@@ -108,6 +108,41 @@ export const updateWinner = createAsyncThunk(
   },
 );
 
+export const sortWinners = createAsyncThunk(
+  'winners/sortWinners',
+  async function ({ page, sortCriteria, sortOrder }: { page: number, sortCriteria: string, sortOrder: string }, { rejectWithValue }) {
+    try {
+      const response = await fetch(`http://127.0.0.1:3000/winners?_limit=${LIMIT}&_page=${page}&_sort=${sortCriteria}&_order=${sortOrder}`);
+
+      if (!response.ok) throw new Error('Server Error');
+      return  await response.json();
+
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const deleteWinner = createAsyncThunk(
+  'winners/deleteWinner',
+  async function ({ id }: { id: number }, { rejectWithValue, dispatch, getState }) {
+    try {
+      const response = await fetch(`http://127.0.0.1:3000/winners/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) throw new Error('Server Error');
+      const result = await response.json();
+      const state = getState();
+      dispatch(getWinners(state.winners.currentPage));
+      return result;
+
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 interface WinnerItem {
   id: number;
   time: number;
@@ -140,9 +175,6 @@ const WinnersSlice = createSlice({
         },
       };
     },
-    updateWinner() {
-
-    },
     nextButtonPaginationWinner(state) {
       return { ...state,
         currentPage: state.currentPage + STEP_OF_PAGINATION,
@@ -166,6 +198,16 @@ const WinnersSlice = createSlice({
         };
       })
       .addCase(getWinners.rejected, (state, action) => {
+        console.error('Error:', action.payload);
+      })
+      .addCase(sortWinners.fulfilled, (state, action) => {
+        console.log(action.payload);
+        return {
+          ...state,
+          winnerItems: action.payload,
+        };
+      })
+      .addCase(sortWinners.rejected, (state, action) => {
         console.error('Error:', action.payload);
       });
   },

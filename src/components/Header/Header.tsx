@@ -2,9 +2,14 @@ import styles from './Header.module.scss';
 import { Button } from '../Button';
 import { useNavigate } from 'react-router-dom';
 import { startTransition } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { stopEngineFetch } from '../../store/slices/CarEngineSlice';
 
 function Header() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cars = useSelector(state => state.allCars.carItems);
+
   const goToGarage = () => {
     startTransition(() => {
       navigate('/');
@@ -15,6 +20,7 @@ function Header() {
     startTransition(() => {
       navigate('/winners');
     });
+    cars.forEach((car) => dispatch(stopEngineFetch(car.id)));
   };
 
   return (

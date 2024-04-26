@@ -36,3 +36,9 @@
 .time {
   width: 10%;
 }
+
+.delete {
+  text-transform: lowercase;
+  color: var(--light-blue);
+  cursor: pointer;
+}

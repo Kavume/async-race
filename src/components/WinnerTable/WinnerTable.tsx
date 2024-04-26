@@ -1,6 +1,9 @@
 import styles from './WinnerTable.module.scss';
 import { WinnerItem } from './WinnerItem';
 import { useState } from 'react';
+import { sortWinners } from '../../store/slices/WinnerSlice';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../store/hooks';
 
 interface CarData {
   [id: number]: {
@@ -15,39 +18,38 @@ interface WinnerTableProps {
 }
 
 function WinnerTable({ winners, carData }: WinnerTableProps) {
-  const [sortCriteria, setSortCriteria] = useState<'time' | 'wins'>('time');
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [winsSortOrder, setWinsSortOrder] = useState('ASC');
+  const [timeSortOrder, setTimeSortOrder] = useState('ASC');
+  const [idSortOrder, setIdSortOrder] = useState('ASC');
+  const dispatch = useDispatch();
+  const curPage = useAppSelector(state => state.winners.currentPage);
 
-  const toggleSortCriteria = (criteria: 'time' | 'wins') => {
-    if (sortCriteria === criteria) setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    else {
-      setSortCriteria(criteria);
-      setSortOrder('asc');
-    }
+  const handleSortByWins = () => {
+    setWinsSortOrder(winsSortOrder === 'ASC' ? 'DESC' : 'ASC');
+    dispatch(sortWinners({ page: curPage, sortCriteria: 'wins', sortOrder: winsSortOrder }));
   };
-
-  const sortedWinners = [...winners].sort((a, b) => {
-    if (sortCriteria === 'time') return sortOrder === 'asc' ? a.time - b.time : b.time - a.time;
-    else return sortOrder === 'asc' ? a.wins - b.wins : b.wins - a.wins;
-  });
-
+  const handleSortByTime = () => {
+    setTimeSortOrder(timeSortOrder === 'ASC' ? 'DESC' : 'ASC');
+    dispatch(sortWinners({ page: curPage, sortCriteria: 'time', sortOrder: timeSortOrder }));
+  };
+  const handleSortById = () => {
+    setIdSortOrder(idSortOrder === 'ASC' ? 'DESC' : 'ASC');
+    dispatch(sortWinners({ page: curPage, sortCriteria: 'id', sortOrder: idSortOrder }));
+  };
   return (
       <table className={styles.table}>
         <thead>
             <tr>
-              <th className={styles.headerCell}>№</th>
+              <th className={`${styles.headerCell} ${styles.toggle}`} onClick={handleSortById}>№</th>
               <th className={styles.headerCell}>Car</th>
               <th className={styles.headerCell}>name</th>
-              <th className={`${styles.headerCell} ${styles.toggle}`} onClick={() => toggleSortCriteria('wins')}>
-                  wins {sortCriteria === 'wins' && (sortOrder === 'asc' ? '▲' : '▼')}
-              </th>
-              <th className={`${styles.headerCell} ${styles.toggle}`} onClick={() => toggleSortCriteria('time')}>
-                  best time (seconds) {sortCriteria === 'time' && (sortOrder === 'asc' ? '▲' : '▼')}
-              </th>
+              <th className={`${styles.headerCell} ${styles.toggle}`} onClick={handleSortByWins}>wins</th>
+              <th className={`${styles.headerCell} ${styles.toggle}`} onClick={handleSortByTime}>best time (seconds)</th>
+              <th className={styles.headerCell}></th>
             </tr>
         </thead>
         <tbody>
-        {sortedWinners.map((winner) => (
+        {winners.map((winner) => (
           <WinnerItem key={winner.id} id={winner.id} time={winner.time} wins={winner.wins} color={carData[winner.id]?.color} name={carData[winner.id]?.name} />
         ))}
         </tbody>

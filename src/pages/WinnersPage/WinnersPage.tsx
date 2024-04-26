@@ -10,7 +10,6 @@ function WinnersPage() {
   const dispatch = useDispatch();
   const winners = useAppSelector(state => state.winners.winnerItems);
   const curPage = useAppSelector(state => state.winners.currentPage);
-  // const totalPage = useAppSelector(state => state.winners.totalPage);
   const [carData, setCarData] = useState({});
 
   const getCarData = async (id) => {
@@ -33,7 +32,7 @@ function WinnersPage() {
   }, [winners]);
 
   useEffect(() => {
-    dispatch(getWinners(curPage));
+    dispatch(getWinners({ page: curPage }));
   }, [dispatch, curPage]);
 
   return (
