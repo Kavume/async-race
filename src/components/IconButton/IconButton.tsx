@@ -7,7 +7,7 @@ interface IconButtonProps extends ButtonProps {
 
 function IconButton({ icon, ...buttonProps }: IconButtonProps) {
   return (
-        <Button size={'medium'} {...buttonProps}>
+        <Button {...buttonProps}>
             <div className={styles.icon}>
                 {icon}
             </div>

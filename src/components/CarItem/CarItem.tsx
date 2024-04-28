@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { deleteCarItem } from '../../store/slices/CarManageSlice';
 import { startEngineFetch, stopEngineFetch } from '../../store/slices/CarEngineSlice';
 import { useAppSelector } from '../../store/hooks';
+import { AppDispatch } from '../../store/store';
 
 interface CarItemProps {
   carColor: string;
@@ -14,15 +15,15 @@ interface CarItemProps {
 }
 
 function CarItem({ carColor, carName, carId, onSelectCar }: CarItemProps) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const currentCar = useAppSelector(state => state.carEngine[carId]) || {};
   const { velocity, distance, isEngineStarted, isBroken } = currentCar;
 
-  const handleStartEngine = async (id) => {
+  const handleStartEngine = async (id: number) => {
     dispatch(startEngineFetch(id));
   };
 
-  const handleStopEngine = async (id) => {
+  const handleStopEngine = async (id: number) => {
     dispatch(stopEngineFetch(id));
   };
 

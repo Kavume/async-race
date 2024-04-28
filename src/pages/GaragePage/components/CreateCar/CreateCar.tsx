@@ -4,11 +4,12 @@ import { Button } from '../../../../components/Button';
 import { useCallback, useState } from 'react';
 import { createNewCar } from '../../../../store/slices/CarManageSlice';
 import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../../store/store';
 
 function CreateCar() {
   const [newName, setNewName] = useState('');
   const [newColor, setNewColor] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleCreateNewCar = useCallback(() => {
     dispatch(createNewCar({ carNameValue: newName, carColorValue: newColor }));

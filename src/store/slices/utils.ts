@@ -1,10 +1,14 @@
-export const generateName = (carBrands) => {
+type CarBrand = {
+  brand: string;
+  models: string[];
+};
+
+export const generateName = (carBrands: CarBrand[]) => {
   const length = carBrands.length;
   const randomBrand = Math.floor(Math.random() * length);
   const car = carBrands[randomBrand];
   return `${car.brand} ${car.models[Math.floor(Math.random() * car.models.length)]}`;
 };
-
 
 export const generateColor = () => {
   let color = '#';

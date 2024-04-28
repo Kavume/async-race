@@ -5,13 +5,14 @@ import { useCallback, useState } from 'react';
 import { updateCar } from '../../../../store/slices/CarManageSlice';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../../store/hooks';
+import { AppDispatch } from '../../../../store/store';
 
 interface UpdateCarProps {
   carId: number,
 }
 
 function UpdateCar( { carId }: UpdateCarProps) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const car = useAppSelector(state => state.allCars.carItems.find(i => i.id === carId));
   const initialColor = car ? car.color : '';
   const initialName = car ? car.name : '';

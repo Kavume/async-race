@@ -1,14 +1,14 @@
 import styles from './Button.module.scss';
 
-interface ButtonProps {
+export interface ButtonProps {
   text: string;
-  size: 'large' | 'medium' | 'small';
-  children: React.ReactNode;
+  size?: 'large' | 'medium' | 'small';
+  children?: React.ReactNode;
   color: 'pink' | 'blue' | 'green' | 'yellow' | 'disable';
   onClick?: () => void;
 }
 
-function Button({ text, size, children, color, onClick } : ButtonProps) {
+function Button({ text, size = 'medium', children, color, onClick } : ButtonProps) {
   let boxShadowStyle = {};
   if (size === 'large') {
     boxShadowStyle = {

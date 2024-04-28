@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 const STATUS_404 = 404;
 const STEP_OF_PAGINATION = 1;
@@ -18,7 +19,10 @@ export const getWinners = createAsyncThunk(
       return { data, totalPage, totalCars };
 
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
     }
   },
 );
@@ -32,11 +36,60 @@ export const getDataWinCar = createAsyncThunk(
       return await response.json();
 
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
     }
   },
 );
 
+export const createWinnerItem = createAsyncThunk(
+  'winners/createWinnerItem',
+  async function ({ id, time }:{ id: number, time: number }, { rejectWithValue }) {
+    try {
+      const response = await fetch('http://127.0.0.1:3000/winners', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: id, time: time, wins: 1 }),
+      });
+      if (!response.ok) throw new Error('Server Error');
+      return  await response.json();
+
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
+    }
+  },
+);
+
+export const updateWinner = createAsyncThunk(
+  'winners/updateWinner',
+  async function ({ id, time, wins }:{ id: number, time: number, wins: number }, { rejectWithValue }) {
+    try {
+      const response = await fetch(`http://127.0.0.1:3000/winners/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: id, time: time, wins: wins++ }),
+      });
+
+      if (!response.ok) throw new Error('Server Error');
+      return  await response.json();
+
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
+    }
+  },
+);
 export const createWinnerRelevant = createAsyncThunk(
   'winners/createWinnerRelevant',
   async function ({ id, time }:{ id: number, time: number }, { rejectWithValue, dispatch }) {
@@ -62,51 +115,15 @@ export const createWinnerRelevant = createAsyncThunk(
 
       return data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
     }
   },
 );
 
-export const createWinnerItem = createAsyncThunk(
-  'winners/createWinnerItem',
-  async function ({ id, time }:{ id: number, time: number }, { rejectWithValue }) {
-    try {
-      const response = await fetch('http://127.0.0.1:3000/winners', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: id, time: time, wins: 1 }),
-      });
-      if (!response.ok) throw new Error('Server Error');
-      return  await response.json();
 
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  },
-);
-
-export const updateWinner = createAsyncThunk(
-  'winners/updateWinner',
-  async function ({ id, time, wins }:{ id: number, time: number, wins: number }, { rejectWithValue }) {
-    try {
-      const response = await fetch(`http://127.0.0.1:3000/winners/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: id, time: time, wins: wins++ }),
-      });
-
-      if (!response.ok) throw new Error('Server Error');
-      return  await response.json();
-
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  },
-);
 
 export const sortWinners = createAsyncThunk(
   'winners/sortWinners',
@@ -118,7 +135,10 @@ export const sortWinners = createAsyncThunk(
       return  await response.json();
 
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
     }
   },
 );
@@ -133,12 +153,15 @@ export const deleteWinner = createAsyncThunk(
 
       if (!response.ok) throw new Error('Server Error');
       const result = await response.json();
-      const state = getState();
-      dispatch(getWinners(state.winners.currentPage));
+      const state = getState() as RootState;
+      dispatch(getWinners({ page: state.winners.currentPage }));
       return result;
 
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
     }
   },
 );
@@ -200,7 +223,7 @@ const WinnersSlice = createSlice({
           totalCars: action.payload.totalCars,
         };
       })
-      .addCase(getWinners.rejected, (state, action) => {
+      .addCase(getWinners.rejected, (_, action) => {
         console.error('Error:', action.payload);
       })
       .addCase(sortWinners.fulfilled, (state, action) => {
@@ -210,7 +233,7 @@ const WinnersSlice = createSlice({
           winnerItems: action.payload,
         };
       })
-      .addCase(sortWinners.rejected, (state, action) => {
+      .addCase(sortWinners.rejected, (_, action) => {
         console.error('Error:', action.payload);
       });
   },

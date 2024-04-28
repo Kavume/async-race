@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { startTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { stopEngineFetch } from '../../store/slices/CarEngineSlice';
+import { AppDispatch, RootState } from '../../store/store';
 
 function Header() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const cars = useSelector(state => state.allCars.carItems);
+  const dispatch = useDispatch<AppDispatch>();
+  const cars = useSelector((state: RootState) => state.allCars.carItems);
 
   const goToGarage = () => {
     startTransition(() => {

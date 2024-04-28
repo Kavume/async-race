@@ -13,8 +13,8 @@ import { fetchCars, generateNewCars, updateCar } from '../../store/slices/CarMan
 import { useAppSelector } from '../../store/hooks';
 import { startEngineFetch, stopEngineFetch } from '../../store/slices/CarEngineSlice';
 import { CreateCar } from './components/CreateCar';
-import { UpdateCar } from './components/UpdateCar';
 import { GaragePagination } from './components/GaragePagination';
+import { AppDispatch } from '../../store/store';
 
 function GaragePage() {
   const [carValues, setCarValues] = useState({
@@ -22,9 +22,9 @@ function GaragePage() {
     updatedColor: '',
   });
 
-  const [selectedCarId, setSelectedCarId] = useState(null);
+  const [selectedCarId, setSelectedCarId] = useState<number | null>(null);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const allCars = useAppSelector(state => state.allCars.carItems);
   const curPage = useAppSelector(state => state.allCars.currentPage);
 

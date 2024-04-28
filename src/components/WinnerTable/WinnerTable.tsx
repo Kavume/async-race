@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { sortWinners } from '../../store/slices/WinnerSlice';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store/hooks';
+import { AppDispatch } from '../../store/store';
 
 interface CarData {
   [id: number]: {
@@ -21,7 +22,7 @@ function WinnerTable({ winners, carData }: WinnerTableProps) {
   const [winsSortOrder, setWinsSortOrder] = useState('ASC');
   const [timeSortOrder, setTimeSortOrder] = useState('ASC');
   const [idSortOrder, setIdSortOrder] = useState('ASC');
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const curPage = useAppSelector(state => state.winners.currentPage);
 
   const handleSortByWins = () => {
@@ -36,6 +37,7 @@ function WinnerTable({ winners, carData }: WinnerTableProps) {
     setIdSortOrder(idSortOrder === 'ASC' ? 'DESC' : 'ASC');
     dispatch(sortWinners({ page: curPage, sortCriteria: 'id', sortOrder: idSortOrder }));
   };
+
   return (
       <table className={styles.table}>
         <thead>

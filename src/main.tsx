@@ -5,8 +5,8 @@ import { createBrowserRouter, useRouteError, RouterProvider } from 'react-router
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 
-function ErrorBoundary() {
-  const error = useRouteError();
+export function ErrorBoundary() {
+  const error = useRouteError() as Error;
   console.error(error);
   return <div>{error.message}</div>;
 }

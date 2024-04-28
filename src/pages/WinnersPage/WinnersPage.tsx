@@ -5,14 +5,15 @@ import { useAppSelector } from '../../store/hooks';
 import styles from './WinnersPage.module.scss';
 import { WinnerPagination } from './components/WinnerPagination';
 import { WinnerTable } from '../../components/WinnerTable';
+import { AppDispatch } from '../../store/store';
 
 function WinnersPage() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const winners = useAppSelector(state => state.winners.winnerItems);
   const curPage = useAppSelector(state => state.winners.currentPage);
   const [carData, setCarData] = useState({});
 
-  const getCarData = async (id) => {
+  const getCarData = async (id: number) => {
     try {
       const response = await dispatch(getDataWinCar({ id }));
       return response.payload;

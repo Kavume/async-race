@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { carBrands } from '../../pages/GaragePage/data';
 import { generateName, generateColor } from './utils';
+import { RootState } from '../store';
 
 const LIMIT = 7;
 const STEP_OF_PAGINATION = 1;
@@ -19,7 +20,10 @@ export const fetchCars = createAsyncThunk(
       return { data, totalPage, totalCars };
 
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
     }
   },
 );
@@ -34,12 +38,15 @@ export const deleteCarItem = createAsyncThunk(
       if (!response.ok) throw new Error('Server Error');
 
       const result = await response.json();
-      const state = getState();
+      const state = getState() as RootState;
       dispatch(fetchCars(state.allCars.currentPage));
       return result;
 
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
     }
   },
 );
@@ -62,12 +69,15 @@ export const createNewCar = createAsyncThunk(
       if (!response.ok) throw new Error('Server Error');
       const result = await response.json();
 
-      const state = getState();
+      const state = getState() as RootState;
       dispatch(fetchCars(state.allCars.currentPage));
       return result;
 
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
     }
   },
 );
@@ -93,12 +103,15 @@ export const generateNewCars = createAsyncThunk(
 
         if (!response.ok) throw new Error('Server Error');
       }
-      const state = getState();
+      const state = getState() as RootState; 
       const cars = dispatch(fetchCars(state.allCars.currentPage));
       return await cars;
 
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
     }
   },
 );
@@ -118,12 +131,15 @@ export const updateCar = createAsyncThunk(
       if (!response.ok) throw new Error('Server Error');
 
       const data = await response.json();
-      const state = getState();
+      const state = getState() as RootState;
       dispatch(fetchCars(state.allCars.currentPage));
       return data;
 
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
     }
   },
 );
@@ -173,13 +189,13 @@ const carManageSlice = createSlice({
           totalCars: action.payload.totalCars,
         };
       })
-      .addCase(fetchCars.rejected, (state, action) => {
+      .addCase(fetchCars.rejected, (_, action) => {
         console.error('Error:', action.payload);
       })
       .addCase(updateCar.fulfilled, (state) => {
         return state;
       })
-      .addCase(updateCar.rejected, (state, action) => {
+      .addCase(updateCar.rejected, (_, action) => {
         console.error('Error:', action.payload);
       });
   },

@@ -2,6 +2,7 @@ import styles from './WinnerItem.module.scss';
 import { CarIcon } from '../../../assets/icons';
 import { useDispatch } from 'react-redux';
 import { deleteWinner } from '../../../store/slices/WinnerSlice';
+import { AppDispatch } from '../../../store/store';
 
 interface WinnerItemProps {
   id: number,
@@ -12,7 +13,7 @@ interface WinnerItemProps {
 }
 
 function WinnerItem({ id, time, wins, name, color }: WinnerItemProps) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
           <tr>
