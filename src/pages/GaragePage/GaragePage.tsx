@@ -41,22 +41,13 @@ function GaragePage() {
     setCarValues({ ...carValues, updatedName: name, updatedColor: color });
   }, [setSelectedCarId, setCarValues, carValues]);
 
-  const generateCars = useCallback(() => {
-    dispatch(generateNewCars());
-  }, [dispatch]);
+  const generateCars = useCallback(() => dispatch(generateNewCars()), [dispatch]);
+  const handleRace = async () => allCars.forEach((car) => dispatch(startEngineFetch(car.id)));
 
-  const handleRace = async () => {
-    allCars.forEach((car) => {
-      dispatch(startEngineFetch(car.id));
-    });
-  };
-
-  const handleReset = async () => {
-    allCars.forEach((car) => {
-      dispatch(resetWinner());
-      dispatch(stopEngineFetch(car.id));
-    });
-  };
+  const handleReset = async () => allCars.forEach((car) => {
+    dispatch(resetWinner());
+    dispatch(stopEngineFetch(car.id));
+  });
 
   useEffect(() => {
     dispatch(fetchCars(curPage));
@@ -74,7 +65,6 @@ function GaragePage() {
                 <Input placeholder={'Type car brand'} type={'text'} value={carValues.updatedName} onChange={(e) => setCarValues({ ...carValues, updatedName: e.target.value })} />
                 <Input type={'color'} value={carValues.updatedColor} onChange={(e) => setCarValues({ ...carValues, updatedColor: e.target.value })} />
                 <Button text={'update'} size={'medium'} color={'pink'} onClick={handleUpdateCar}/>
-            {/*<UpdateCar carId={selectedCarId} />*/}
           </div>
           <Button text={'generate cars'} size={'medium'} color={'green'} onClick={generateCars}/>
         </div>
