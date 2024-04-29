@@ -1,4 +1,4 @@
-## Deployment link: [click here](https://662e51cdb2dfa500083c0b57--async-race-kavume.netlify.app)
+## Deployment link: [click here](https://develop-garage--async-race-kavume.netlify.app/)
 ### Score: 395
 
 ---
