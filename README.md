@@ -1,4 +1,4 @@
-## Deployment link: [click here]()
+## Deployment link: [click here](https://662e51cdb2dfa500083c0b57--async-race-kavume.netlify.app/winners)
 ### Score:
 
 ---
@@ -38,7 +38,7 @@
 - [x] __Management Buttons (5 points):__ Provide buttons near each car's image for updating its attributes or deleting it.
 - [x] __Pagination (10 points):__ Implement pagination for the "Garage" view, displaying 7 cars per page.
 
-###Car Generation (10 points)
+### Car Generation (10 points)
 
 - [x] __Random Car Creation (10 points):__ There should be a button to create random cars (100 cars per click). Name should be assembled from two random parts, for example "Tesla" + "Model S", or "Ford" + "Mustang" (At least 10 different names for each part). Color should be also generated randomly.
 

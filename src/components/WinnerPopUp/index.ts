@@ -1,0 +1,1 @@
+export { default as WinnerPopUp } from './WinnerPopUp';

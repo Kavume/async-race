@@ -2,6 +2,7 @@ import { Pagination } from '../../../../components/Pagination';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../../store/hooks';
 import { nextButtonPaginationGarage, prevButtonPaginationGarage } from '../../../../store/slices/CarManageSlice';
+import { resetWinner } from '../../../../store/slices/WinnerSlice';
 
 function GaragePagination() {
   const dispatch = useDispatch();
@@ -11,8 +12,14 @@ function GaragePagination() {
 
   return (
         <Pagination
-            prevAction={() => dispatch(prevButtonPaginationGarage())}
-            nextAction={() => dispatch(nextButtonPaginationGarage())}
+            prevAction={() => {
+              dispatch(resetWinner());
+              dispatch(prevButtonPaginationGarage());
+            }}
+            nextAction={() => {
+              dispatch(resetWinner());
+              dispatch(nextButtonPaginationGarage());
+            }}
             totalPage={totalPage}
             curPage={curPage}
             totalCars={totalCars}

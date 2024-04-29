@@ -15,15 +15,15 @@ import { startEngineFetch, stopEngineFetch } from '../../store/slices/CarEngineS
 import { CreateCar } from './components/CreateCar';
 import { GaragePagination } from './components/GaragePagination';
 import { AppDispatch } from '../../store/store';
+import { WinnerPopUp } from '../../components/WinnerPopUp';
+import { resetWinner } from '../../store/slices/WinnerSlice';
 
 function GaragePage() {
   const [carValues, setCarValues] = useState({
     updatedName: '',
     updatedColor: '',
   });
-
   const [selectedCarId, setSelectedCarId] = useState<number | null>(null);
-
   const dispatch = useDispatch<AppDispatch>();
   const allCars = useAppSelector(state => state.allCars.carItems);
   const curPage = useAppSelector(state => state.allCars.currentPage);
@@ -53,6 +53,7 @@ function GaragePage() {
 
   const handleReset = async () => {
     allCars.forEach((car) => {
+      dispatch(resetWinner());
       dispatch(stopEngineFetch(car.id));
     });
   };
@@ -60,7 +61,6 @@ function GaragePage() {
   useEffect(() => {
     dispatch(fetchCars(curPage));
   }, [dispatch, curPage]);
-
 
   return (
       <>
@@ -82,6 +82,7 @@ function GaragePage() {
             <CarItem key={car.id} carColor={car.color} carName={car.name} carId={car.id} onSelectCar={handleSelectCar} />
         ))}
         <GaragePagination />
+        <WinnerPopUp />
       </>
   );
 }

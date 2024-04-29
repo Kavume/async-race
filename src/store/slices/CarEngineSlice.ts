@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createWinnerRelevant } from './WinnerSlice';
+import { createWinnerRelevant, setWinner } from './WinnerSlice';
 
 const CODE_OF_ERROR = 500;
 const STATUS_200 = 200;
@@ -63,6 +63,7 @@ export const driveModeFetch = createAsyncThunk(
         dispatch(toggleIsBroken(carId));
       } else if (response.status === STATUS_200) {
         dispatch(createWinnerRelevant({ id: carId, time: time }));
+        dispatch(setWinner({ id: carId, time: time }));
       }
 
       if (!response.ok) throw new Error('Server Error');

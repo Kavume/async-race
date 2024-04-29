@@ -90,6 +90,7 @@ export const updateWinner = createAsyncThunk(
     }
   },
 );
+
 export const createWinnerRelevant = createAsyncThunk(
   'winners/createWinnerRelevant',
   async function ({ id, time }:{ id: number, time: number }, { rejectWithValue, dispatch }) {
@@ -122,8 +123,6 @@ export const createWinnerRelevant = createAsyncThunk(
     }
   },
 );
-
-
 
 export const sortWinners = createAsyncThunk(
   'winners/sortWinners',
@@ -176,7 +175,8 @@ interface InitialWinnerType  {
   winnerItems: WinnerItem[],
   currentPage: number,
   totalPage: number,
-  totalCars: number
+  totalCars: number,
+  winnerCar: null | { id: number, time: number },
 }
 
 const initialState: InitialWinnerType = {
@@ -184,6 +184,7 @@ const initialState: InitialWinnerType = {
   currentPage: 1,
   totalPage: 1,
   totalCars: 0,
+  winnerCar: null,
 };
 
 const WinnersSlice = createSlice({
@@ -212,6 +213,22 @@ const WinnersSlice = createSlice({
 
       };
     },
+    setWinner(state, action) {
+      if (!state.winnerCar) {
+        return {
+          ...state,
+          winnerCar: action.payload,
+        };
+      } else {
+        return state;
+      }
+    },
+    resetWinner(state) {
+      return {
+        ...state,
+        winnerCar: null,
+      };
+    },
   },
   extraReducers: builder => {
     builder
@@ -227,7 +244,6 @@ const WinnersSlice = createSlice({
         console.error('Error:', action.payload);
       })
       .addCase(sortWinners.fulfilled, (state, action) => {
-        console.log(action.payload);
         return {
           ...state,
           winnerItems: action.payload,
@@ -239,5 +255,5 @@ const WinnersSlice = createSlice({
   },
 });
 
-export const { prevButtonPaginationWinner, nextButtonPaginationWinner } = WinnersSlice.actions;
+export const { prevButtonPaginationWinner, nextButtonPaginationWinner, setWinner, resetWinner } = WinnersSlice.actions;
 export default WinnersSlice.reducer;
